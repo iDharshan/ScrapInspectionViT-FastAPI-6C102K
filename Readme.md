@@ -1,6 +1,6 @@
 # ScrapInspectionViT-FastAPI-6C102k
 
-![Scrap Sorting Interface](https://via.placeholder.com/800x200.png?text=AI-Powered+Scrap+Sorting) <!-- Replace with actual screenshot if available -->
+![Scrap Sorting Interface](sample_output.png) <!-- Replace with actual screenshot if available -->
 
 **ScrapInspectionViT-FastAPI-6C102k** is a state-of-the-art machine learning solution designed to advance sustainable practices in the steel industry through precise scrap classification. By fine-tuning a Vision Transformer (ViT-Base-Patch16-224) model on the Dataset of European Scrap Classes (DOES), which includes 102,000 high-quality images across six scrap categories, this project achieves an impressive 99.56% accuracy. Leveraging Low-Rank Adaptation (LoRA) for efficient training, the model is deployed via a FastAPI web application, providing a user-friendly interface for real-time scrap sorting. This approach enhances recycling efficiency, reduces waste, and supports greener steel production.
 
