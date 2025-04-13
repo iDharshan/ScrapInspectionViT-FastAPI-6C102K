@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transforming Scrap Sorting with AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Transforming Scrap Sorting with AI</h1>
+            <p>Upload or capture an image — our AI model will identify the scrap type in seconds.</p>
+
+            <div class="content-wrapper">
+                <!-- Left: Upload & Webcam -->
+                <div class="input-section">
+                    <div class="upload-area" id="uploadArea">
+                        <p>Drag & drop an image here</p>
+                        <p>or</p>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <button class="btn" onclick="document.getElementById('fileInput').click()">Select Image</button>
+                    </div>
+
+                    <button class="btn" id="toggleWebcamBtn">Use Webcam</button>
+
+                    <div class="webcam-section" id="webcamSection" style="display: none;">
+                        <video id="webcam" autoplay playsinline></video>
+                        <button class="btn" id="captureBtn">Capture Photo</button>
+                    </div>
+                </div>
+
+                <!-- Right: Classification Output -->
+                <div class="result-section">
+                    <div class="result-box">
+                        <h2>Classification Result</h2>
+                        <div class="result-image">
+                            <img id="resultImage" src="" alt="Classified Scrap Image" style="display: none;">
+                        </div>
+                        <p id="resultText">Once your image is processed, the scrap type and specifications will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const resultImage = document.getElementById('resultImage');
+        const resultText = document.getElementById('resultText');
+        const webcam = document.getElementById('webcam');
+        const webcamSection = document.getElementById('webcamSection');
+        const toggleWebcamBtn = document.getElementById('toggleWebcamBtn');
+        const captureBtn = document.getElementById('captureBtn');
+        const canvas = document.createElement('canvas');
+        let webcamStream = null;
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) handleImage(files[0]);
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) handleImage(fileInput.files[0]);
+        });
+
+        toggleWebcamBtn.addEventListener('click', () => {
+            if (webcamSection.style.display === 'none') {
+                startWebcam();
+                webcamSection.style.display = 'block';
+                toggleWebcamBtn.textContent = 'Close Webcam';
+            } else {
+                stopWebcam();
+                webcamSection.style.display = 'none';
+                toggleWebcamBtn.textContent = 'Use Webcam';
+            }
+        });
+
+        captureBtn.addEventListener('click', () => {
+            if (webcamStream) {
+                canvas.width = webcam.videoWidth;
+                canvas.height = webcam.videoHeight;
+                canvas.getContext('2d').drawImage(webcam, 0, 0);
+                canvas.toBlob((blob) => {
+                    const file = new File([blob], "webcam-capture.jpg", { type: "image/jpeg" });
+                    handleImage(file);
+                }, 'image/jpeg');
+            }
+        });
+
+        function startWebcam() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    webcamStream = stream;
+                    webcam.srcObject = stream;
+                    webcam.play().catch(err => {
+                        console.error("Error playing webcam:", err);
+                        alert("Unable to start webcam. Check browser permissions.");
+                    });
+                })
+                .catch(err => {
+                    console.error("Error accessing webcam:", err);
+                    alert("Could not access webcam. Please allow camera permissions.");
+                });
+        }
+
+        function stopWebcam() {
+            if (webcamStream) {
+                webcamStream.getTracks().forEach(track => track.stop());
+                webcamStream = null;
+                webcam.srcObject = null;
+                webcam.pause();
+            }
+        }
+
+        function handleImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resultImage.src = e.target.result;
+                resultImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultText.innerHTML = data.result;
+            })
+            .catch(err => {
+                console.error("Error uploading image:", err);
+                resultText.innerHTML = "Oops! There was an error processing the image.";
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+/* Reset and Typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+}
+
+p {
+    font-size: 1rem;
+    color: #555555;
+    margin-bottom: 20px;
+}
+
+/* Layout */
+.content-wrapper {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.input-section, .result-section {
+    flex: 1 1 350px;
+}
+
+/* Upload Area */
+.upload-area {
+    border: 2px dashed #cccccc;
+    border-radius: 10px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    text-align: center;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.upload-area.drag-over {
+    border-color: #28a745;
+    background-color: #e9f7ef;
+}
+
+.upload-area p {
+    font-size: 0.95rem;
+    color: #666666;
+    margin-bottom: 10px;
+}
+
+/* Button Styles */
+.btn {
+    background-color: #28a745;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+/* Webcam Section */
+.webcam-section {
+    margin-top: 15px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.webcam-section video {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Result Display */
+.result-box {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.result-box h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+}
+
+.result-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.result-image img {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 8px;
+    border: 2px solid #28a745;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+}
