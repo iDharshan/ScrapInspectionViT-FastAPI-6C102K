@@ -88,7 +88,7 @@ Description: Thin new production steel scrap (≤1.5x0.5x0.5 m, thickness <3 mm)
 - **Accuracy**: 99.56% on the test set
 - **Model Source**: Fine-tuned on `iDharshan/vit-base-patch16-224-SIViT` (Hugging Face)
 
-> ⚠️ **Note**: The fine-tuned model weights are not included in this repository due to their size. Refer to the DOES dataset documentation or contact the maintainers for access to the model weights.
+> ⚠️ **Note**: The fine-tuned model weights are not included in this repository due to their size. Refer to the huggingface repository or contact the maintainers for access to the model weights.
 
 ## Contributing
 We welcome contributions to enhance this project! To contribute:
